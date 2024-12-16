@@ -1,8 +1,6 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from scripts.utils import measure_energy, print_results
-
-# Charger le modèle SmolLM
+from scripts.metrics import measure_energy, print_results
 def load_model(model_name="HuggingFaceTB/SmolLM-135M"):
     model = AutoModelForCausalLM.from_pretrained(model_name)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -15,10 +13,7 @@ def run_benchmark(model, tokenizer, input_text):
     return outputs
 
 if __name__ == "__main__":
-    # Charger le modèle et les données
     model, tokenizer = load_model()
     input_text = "Hello, how are you?"
-
-    # Benchmark initial
     _, emissions, time_elapsed = measure_energy(run_benchmark, model, tokenizer, input_text)
     print_results("Baseline Benchmark", emissions, time_elapsed)
