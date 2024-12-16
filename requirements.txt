@@ -1,0 +1,5 @@
+transformers
+torch
+codecarbon
+pyyaml
+numpy
