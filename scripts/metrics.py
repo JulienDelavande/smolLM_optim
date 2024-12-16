@@ -1,5 +1,4 @@
 import time
-import torch
 from codecarbon import EmissionsTracker
 
 def measure_energy(func, *args, **kwargs):
