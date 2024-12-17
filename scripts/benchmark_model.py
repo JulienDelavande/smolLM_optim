@@ -1,6 +1,6 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import numpy as np
-from metrics import measure_energy
+from .metrics import measure_energy
 from datasets import load_dataset
 
 def load_model(model_name="HuggingFaceTB/SmolLM-135M"):
