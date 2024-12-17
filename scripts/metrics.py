@@ -19,3 +19,15 @@ def print_results(name, emissions, time_elapsed):
     print(f"Energy Consumption: {emissions:.4f} kWh")
     print(f"Time Elapsed: {time_elapsed:.2f} seconds")
     print("=================")
+    
+def print_aggregate_results(name, avg_emissions, std_emissions, avg_time, std_time, avg_perplexity, output_file=None):
+    print(f"=== {name} ===")
+    print(f"Energy Consumption: {avg_emissions:.4f} ± {std_emissions:.4f} kWh")
+    print(f"Time Elapsed: {avg_time:.2f} ± {std_time:.2f} seconds")
+    print(f"Perplexity: {avg_perplexity:.2f}")
+    print("=================")
+    
+    if output_file:
+        with open(output_file, "a") as f:
+            f.write(f"{name},{avg_emissions},{std_emissions},{avg_time},{std_time},{avg_perplexity}\n")
+
