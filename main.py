@@ -11,26 +11,26 @@ def main(strategy, model_name, num_samples, device, output_file):
 
     if strategy == "baseline":
         print("Running baseline benchmark...")
-        avg_emissions, std_emissions, avg_time, std_time, avg_perplexity = run_benchmark_on_dataset(
+        avg_emissions, std_emissions, avg_time, std_time = run_benchmark_on_dataset(
             model, tokenizer, dataset, device
         )
-        print_aggregate_results("Baseline Benchmark", avg_emissions, std_emissions, avg_time, std_time, avg_perplexity)
+        print_aggregate_results("Baseline Benchmark", avg_emissions, std_emissions, avg_time, std_time)
 
     elif strategy == "quantization":
         print("Applying quantization...")
         quantized_model = apply_quantization(model)
-        avg_emissions, std_emissions, avg_time, std_time, avg_perplexity = run_benchmark_on_dataset(
+        avg_emissions, std_emissions, avg_time, std_time = run_benchmark_on_dataset(
             quantized_model, tokenizer, dataset, device
         )
-        print_aggregate_results("Quantized Benchmark", avg_emissions, std_emissions, avg_time, std_time, avg_perplexity)
+        print_aggregate_results("Quantized Benchmark", avg_emissions, std_emissions, avg_time, std_time)
 
     elif strategy == "pruning":
         print("Applying pruning...")
         pruned_model = apply_pruning(model)
-        avg_emissions, std_emissions, avg_time, std_time, avg_perplexity = run_benchmark_on_dataset(
+        avg_emissions, std_emissions, avg_time, std_time = run_benchmark_on_dataset(
             pruned_model, tokenizer, dataset, device
         )
-        print_aggregate_results("Pruned Benchmark", avg_emissions, std_emissions, avg_time, std_time, avg_perplexity)
+        print_aggregate_results("Pruned Benchmark", avg_emissions, std_emissions, avg_time, std_time)
 
     else:
         print("Unknown strategy. Please choose between 'baseline', 'quantization', or 'pruning'.")
