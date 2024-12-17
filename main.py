@@ -12,7 +12,7 @@ def main(strategy, model_name, num_samples):
     if strategy == "baseline":
         print("Running baseline benchmark...")
         avg_emissions, std_emissions, avg_time, std_time, avg_perplexity = run_benchmark_on_dataset(
-            model, tokenizer, dataset, num_samples
+            model, tokenizer, dataset
         )
         print_aggregate_results("Baseline Benchmark", avg_emissions, std_emissions, avg_time, std_time, avg_perplexity)
 
