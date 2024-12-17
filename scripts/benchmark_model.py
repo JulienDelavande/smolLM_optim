@@ -12,7 +12,7 @@ def load_model(model_name="HuggingFaceTB/SmolLM-135M"):
 def run_benchmark(model, tokenizer, input_text):
     """Exécute un benchmark sur un texte d'entrée."""
     inputs = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=512)
-    outputs = model.generate(inputs["input_ids"], truncation=True, max_new_tokens=50)
+    outputs = model.generate(inputs["input_ids"], max_new_tokens=50)
     return outputs
 
 def load_data_wikitext(num_samples=100):
