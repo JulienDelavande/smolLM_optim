@@ -15,14 +15,14 @@ def run_benchmark(model, tokenizer, input_text):
     outputs = model.generate(inputs["input_ids"], max_length=50)
     return outputs
 
-def load_data():
-    """Charge un dataset pour le benchmark."""
+def load_data_wikitext(num_samples=100):
+    """Charge un dataset pour le benchmark et filtre les échantillons vides."""
     dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
-    return dataset["text"]
+    filtered_samples = [sample for sample in dataset["text"] if sample.strip()]
+    return filtered_samples[:num_samples]
 
-def run_benchmark_on_dataset(model, tokenizer, dataset, num_samples=100):
+def run_benchmark_on_dataset(model, tokenizer, samples):
     """Exécute un benchmark sur plusieurs échantillons du dataset."""
-    samples = dataset[:num_samples]
     emissions_list = []
     times_list = []
     

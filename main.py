@@ -1,13 +1,13 @@
 import argparse
 from scripts.metrics import measure_energy, print_results, print_aggregate_results
-from scripts.benchmark_model import load_model, run_benchmark_on_dataset, load_data
+from scripts.benchmark_model import load_model, run_benchmark_on_dataset, load_data_wikitext
 from optim_strategies.quantization import apply_quantization
 from optim_strategies.pruning import apply_pruning
 
 def main(strategy, model_name, num_samples):
     # Charger le modèle et les données
     model, tokenizer = load_model(model_name)
-    dataset = load_data()
+    dataset = load_data_wikitext(num_samples)
 
     if strategy == "baseline":
         print("Running baseline benchmark...")

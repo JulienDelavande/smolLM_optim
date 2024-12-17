@@ -3,3 +3,4 @@ torch
 codecarbon
 pyyaml
 numpy
+datasets
