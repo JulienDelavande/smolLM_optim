@@ -3,7 +3,7 @@ Load and prepare models with specified optimization strategy and backend for tex
 """
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-    from optimum.onnxruntime import ORTModelForCausalLM
+from optimum.onnxruntime import ORTModelForCausalLM
 from optimum.intel.neural_compressor import INCQuantizer
 from optimum.exporters.onnx import export
 from transformers.onnx import FeaturesManager
