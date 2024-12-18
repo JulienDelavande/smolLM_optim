@@ -4,3 +4,4 @@ codecarbon
 pyyaml
 numpy
 datasets
+optimum 
