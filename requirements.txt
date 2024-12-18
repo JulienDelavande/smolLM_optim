@@ -1,6 +1,6 @@
 transformers
 torch
-optimum[onnxruntime]
+optimum[onnxruntime,intel,neural-compressor]
 pyyaml
 numpy
 datasets

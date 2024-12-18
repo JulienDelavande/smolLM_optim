@@ -5,6 +5,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from optimum.onnxruntime import ORTModelForCausalLM
 from optimum.intel.neural_compressor import INCQuantizer
+from optimum.exporters.onnx import export
 import os
 
 def load_model(model_name: str, strategy: str, backend: str):
@@ -22,14 +23,17 @@ def load_model(model_name: str, strategy: str, backend: str):
         onnx_model_path = f"{model_name}-onnx"
         if not os.path.exists(onnx_model_path):
             # Export model to ONNX if not available
-            from optimum.onnxruntime import ORTOptimizer, ORTConfig
-            from transformers.onnx import export
-            from transformers.onnx import FeaturesManager
+            
 
             base_model = AutoModelForCausalLM.from_pretrained(model_name)
             tokenizer = AutoTokenizer.from_pretrained(model_name)
             feature = "causal-lm"
-            export(tokenizer, base_model, feature, onnx_model_path)
+            export(
+                model=base_model, 
+                tokenizer=tokenizer, 
+                output=onnx_model_path, 
+                task="text-generation"
+            )
 
         # Load ORT model
         model = ORTModelForCausalLM.from_pretrained(onnx_model_path)
