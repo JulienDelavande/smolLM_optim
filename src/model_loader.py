@@ -55,6 +55,5 @@ def load_model(model_name: str, strategy: str, backend: str):
         # Pruning would be done here if integrated. 
         # Example: use `optimum` pruning utilities before final loading.
 
-        model.to(device)
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
         return pipe
