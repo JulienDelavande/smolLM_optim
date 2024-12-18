@@ -21,7 +21,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     results = []
     # Generate text for each phrase - we can define a fixed max_length to ensure consistent outputs
     for phrase in phrases:
-        out = pipe(phrase, max_length=50, num_return_sequences=1)
+        out = pipe(phrase, max_new_tokens=50, num_return_sequences=1)
         # out is a list of dicts with 'generated_text'
         results.append((phrase, out[0]["generated_text"] if out else ""))
     runtime = time.time() - start_time
