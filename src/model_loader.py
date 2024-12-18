@@ -6,6 +6,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from optimum.onnxruntime import ORTModelForCausalLM
 from optimum.intel.neural_compressor import INCQuantizer
 from optimum.exporters.onnx import export
+from transformers.onnx import FeaturesManager
 import os
 
 def load_model(model_name: str, strategy: str, backend: str):
@@ -26,11 +27,12 @@ def load_model(model_name: str, strategy: str, backend: str):
             
 
             base_model = AutoModelForCausalLM.from_pretrained(model_name)
-            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            
             feature = "causal-lm"
+            model_kind, export_config = FeaturesManager.check_supported_model_or_raise(base_model, feature)
             export(
-                model=base_model, 
-                tokenizer=tokenizer, 
+                model=base_model,
+                config=export_config,
                 output=onnx_model_path, 
                 task="text-generation"
             )
