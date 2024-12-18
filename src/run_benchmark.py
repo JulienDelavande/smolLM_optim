@@ -25,10 +25,11 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
         # out is a list of dicts with 'generated_text'
         results.append((phrase, out[0]["generated_text"] if out else ""))
     runtime = time.time() - start_time
-    emissions: dict = tracker.stop()
+    emissions = tracker.stop()
 
-    energy_kwh = emissions.get("energy_consumed (kWh)", None)
-    co2eq = emissions.get("emissions (kg)", None)
+    # energy_kwh = tracker.get("energy_consumed (kWh)", None)
+    # co2eq = tracker.get("emissions (kg)", None)
+    print(tracker)
 
     write_results(
         output_file=output_file,
@@ -36,8 +37,8 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
         strategy=strategy,
         backend=backend,
         runtime=runtime,
-        energy_kwh=energy_kwh,
-        co2eq=co2eq,
+        energy_kwh='energy_kwh',
+        co2eq='co2eq',
         phrases=phrases,
         predictions=results
     )
