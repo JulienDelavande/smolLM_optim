@@ -1,7 +1,6 @@
-transformers
-torch
-codecarbon
-pyyaml
-numpy
-datasets
-optimum 
+transformers==4.33.0
+torch>=1.13.0
+optimum[onnxruntime]>=1.12.0
+codecarbon==2.1.4
+onnxruntime>=1.14.0
+datasets>=2.14.0
