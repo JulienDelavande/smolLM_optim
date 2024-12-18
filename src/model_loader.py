@@ -2,7 +2,7 @@
 Load and prepare models with specified optimization strategy and backend for text generation.
 """
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, BitsAndBytesConfig
 from optimum.onnxruntime import ORTModelForCausalLM, ORTQuantizer
 from optimum.onnxruntime.configuration import AutoQuantizationConfig
 import os
@@ -48,9 +48,9 @@ def load_model(model_name: str, strategy: str, backend: str):
 
         if strategy == "quantization":
             # PyTorch dynamic quantization
-            model = torch.quantization.quantize_dynamic(
-                model, {torch.nn.Linear}, dtype=torch.qint8
-            )
+            quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+            model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config)
+            
 
         # Pruning would be done here if integrated. 
         # Example: use `optimum` pruning utilities before final loading.
