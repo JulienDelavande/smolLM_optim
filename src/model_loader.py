@@ -3,7 +3,7 @@ Load and prepare models with specified optimization strategy and backend for tex
 """
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from optimum.onnxruntime import ORTModelForCausalLM
+from optimum.onnxruntime import ORTModelForCausalLM, ORTQuantizer
 from optimum.intel.neural_compressor import INCQuantizer
 from optimum.exporters.onnx import export
 from transformers.onnx import FeaturesManager
@@ -30,7 +30,7 @@ def load_model(model_name: str, strategy: str, backend: str):
         tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         if strategy == "quantization":
-            quantizer = INCQuantizer.from_pretrained(model)
+            quantizer = ORTQuantizer.from_pretrained(model)
             model = quantizer.quantize(save_directory=onnx_model_path, quantization_config="dynamic")
 
         # Pruning note: pruning for ONNX should be done before export, so this is a placeholder.
