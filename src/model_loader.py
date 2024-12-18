@@ -3,7 +3,7 @@ Load and prepare models with specified optimization strategy and backend for tex
 """
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from optimum.onnxruntime import ORTModelForCausalLM
+    from optimum.onnxruntime import ORTModelForCausalLM
 from optimum.intel.neural_compressor import INCQuantizer
 from optimum.exporters.onnx import export
 from transformers.onnx import FeaturesManager
@@ -23,28 +23,10 @@ def load_model(model_name: str, strategy: str, backend: str):
         # ONNX backend
         onnx_model_path = f"{model_name}-onnx"
         if not os.path.exists(onnx_model_path):
-            # Export model to ONNX if not available
-            
-            base_model = AutoModelForCausalLM.from_pretrained(model_name)
-            
-            feature = "text-generation"
-
-            # Déterminer la configuration ONNX pour ce modèle
-            onnx_config = FeaturesManager.get_config(
-                model=base_model,
-                feature=feature
-            )
-
-            # Exporter le modèle vers ONNX
-            export(
-                tokenizer=tokenizer,
-                model=base_model,
-                config=onnx_config,
-                output=onnx_model_path,
-            )
+            os.makedirs(onnx_model_path)
 
         # Load ORT model
-        model = ORTModelForCausalLM.from_pretrained(onnx_model_path)
+        model = ORTModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-135M",from_transformers=True)
         tokenizer = AutoTokenizer.from_pretrained(model_name)
 
         if strategy == "quantization":
