@@ -25,16 +25,22 @@ def load_model(model_name: str, strategy: str, backend: str):
         if not os.path.exists(onnx_model_path):
             # Export model to ONNX if not available
             
-
             base_model = AutoModelForCausalLM.from_pretrained(model_name)
             
-            feature = "causal-lm"
-            model_kind, export_config = FeaturesManager.check_supported_model_or_raise(base_model, feature)
-            export(
+            feature = "text-generation"
+
+            # Déterminer la configuration ONNX pour ce modèle
+            onnx_config = FeaturesManager.get_config(
                 model=base_model,
-                config=export_config,
-                output=onnx_model_path, 
-                task="text-generation"
+                feature=feature
+            )
+
+            # Exporter le modèle vers ONNX
+            export(
+                tokenizer=tokenizer,
+                model=base_model,
+                config=onnx_config,
+                output=onnx_model_path,
             )
 
         # Load ORT model
