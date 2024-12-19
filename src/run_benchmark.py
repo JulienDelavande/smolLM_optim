@@ -13,7 +13,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     Run the benchmark for a text generation model with given strategy and backend.
     """
     phrases = load_dataset_samples(dataset_name, dataset_split, max_samples)
-    pipe = load_model(model_name, strategy, backend)
+    pipe, tokenizer = load_model(model_name, strategy, backend)
     results = []
 
     # Generate text for each phrase - we can define a fixed max_length to ensure consistent outputs
@@ -26,7 +26,9 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
         print(f"phrase: {phrase}")
         print(f"prediction: {out[0]['generated_text']}")
         
-        token_count = len(out[0]["generated_text"].split())
+        generated_text = out[0]["generated_text"]
+        generated_tokens = tokenizer(generated_text)["input_ids"]
+        token_count = len(generated_tokens)
         results.append({
             "phrase": phrase,
             "prediction": out[0]["generated_text"],
