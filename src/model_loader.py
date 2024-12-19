@@ -45,15 +45,20 @@ def load_model(model_name: str, strategy: str, backend: str):
         # HF backend
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = AutoModelForCausalLM.from_pretrained(model_name)
+        
+        if strategy == 'baseline':
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer).to(device)
+            
 
         if strategy == "quantization":
             # PyTorch dynamic quantization
             quantization_config = BitsAndBytesConfig(load_in_8bit=True)
             model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config)
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
             
 
         # Pruning would be done here if integrated. 
         # Example: use `optimum` pruning utilities before final loading.
 
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+        
         return pipe
