@@ -33,7 +33,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
             "cpu_energy": tracker.final_emissions_data.cpu_energy,
             "gpu_energy": tracker.final_emissions_data.gpu_energy,
             "ram_energy": tracker.final_emissions_data.ram_energy,
-            "energy_consumed": tracker.final_emissions_data.total_energy_consumed,
+            "energy_consumed": tracker.final_emissions_data.energy_consumed,
             "duration": tracker.final_emissions_data.duration
         })
     
