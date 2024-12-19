@@ -5,7 +5,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run optimization benchmarks on a text generation model.")
     parser.add_argument("--model_name", type=str, default="HuggingFaceTB/SmolLM-135M", 
                         help="Hugging Face model name or path.")
-    parser.add_argument("--strategy", type=str, choices=["none", "quantization8bit", "quantization16bit", "pruning"], 
+    parser.add_argument("--strategy", type=str, choices=["none", "quantization", "quantization8bit", "quantization16bit", "pruning"], 
                         default="none", help="Optimization strategy.")
     parser.add_argument("--backend", type=str, choices=["base_cpu", "base_gpu", "onnx_cpu", "onnx_gpu"], 
                         default="onnx_cpu", help="Backend and hardware.")
