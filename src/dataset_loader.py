@@ -3,7 +3,7 @@ Load a Hugging Face dataset.
 """
 from datasets import load_dataset
 
-def load_dataset_samples(dataset_name: str, dataset_config: str, dataset_split: str, max_samples: int):
+def load_dataset_samples(dataset_name: str, dataset_split: str, max_samples: int):
     """
     Load a dataset from Hugging Face Datasets and return max_samples texts.
     """

@@ -9,9 +9,9 @@ if __name__ == "__main__":
                         default="none", help="Optimization strategy.")
     parser.add_argument("--backend", type=str, choices=["base_cpu", "base_gpu", "onnx_cpu", "onnx_gpu"], 
                         default="onnx_cpu", help="Backend and hardware.")
-    parser.add_argument("--dataset_name", type=str, default="wikitext", help="Name of the Hugging Face dataset.")
-    parser.add_argument("--dataset_config", type=str, default="wikitext-2-raw-v1", 
-                        help="Configuration of the Hugging Face dataset.")
+    parser.add_argument("--dataset_name", type=str, default="squad", help="Name of the Hugging Face dataset.")
+    # parser.add_argument("--dataset_config", type=str, default="wikitext-2-raw-v1", 
+    #                     help="Configuration of the Hugging Face dataset.")
     parser.add_argument("--dataset_split", type=str, default="test", 
                         help="Split of the dataset to load.")
     parser.add_argument("--max_samples", type=int, default=10, 
@@ -25,7 +25,7 @@ if __name__ == "__main__":
         strategy=args.strategy,
         backend=args.backend,
         dataset_name=args.dataset_name,
-        dataset_config=args.dataset_config,
+        #dataset_config=args.dataset_config,
         dataset_split=args.dataset_split,
         max_samples=args.max_samples,
         output_file=args.output_csv

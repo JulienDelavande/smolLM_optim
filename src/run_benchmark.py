@@ -8,11 +8,11 @@ from .utils import write_results
 import time
 
 def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: str, 
-                  dataset_config: str, dataset_split: str, max_samples: int, output_file: str):
+                 dataset_split: str, max_samples: int, output_file: str):
     """
     Run the benchmark for a text generation model with given strategy and backend.
     """
-    phrases = load_dataset_samples(dataset_name, dataset_config, dataset_split, max_samples)
+    phrases = load_dataset_samples(dataset_name, dataset_split, max_samples)
     pipe = load_model(model_name, strategy, backend)
     results = []
 
