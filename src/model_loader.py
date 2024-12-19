@@ -35,6 +35,8 @@ def load_model(model_name: str, strategy: str, backend: str):
             model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config)
             pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
             
+        return pipe
+            
             
 
         # Pruning would be done here if integrated. 
