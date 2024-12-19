@@ -3,8 +3,7 @@ Load and prepare models with specified optimization strategy and backend for tex
 """
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, BitsAndBytesConfig
-from optimum.onnxruntime import ORTModelForCausalLM, ORTQuantizer
-from optimum.onnxruntime.configuration import AutoQuantizationConfig
+
 import os
 
 def load_model(model_name: str, strategy: str, backend: str):
@@ -43,6 +42,8 @@ def load_model(model_name: str, strategy: str, backend: str):
         # Example: use `optimum` pruning utilities before final loading.
     
     if backend.startswith("onnx"):
+        from optimum.onnxruntime import ORTModelForCausalLM, ORTQuantizer
+        from optimum.onnxruntime.configuration import AutoQuantizationConfig
         # ONNX backend
         onnx_model_path = f"{model_name}-onnx"
         if not os.path.exists(onnx_model_path):
