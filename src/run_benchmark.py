@@ -13,32 +13,44 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     Run the benchmark for a text generation model with given strategy and backend.
     """
     phrases = load_dataset_samples(dataset_name, dataset_config, dataset_split, max_samples)
-
-    tracker = EmissionsTracker(log_level="error")
-    tracker.start()
     pipe = load_model(model_name, strategy, backend)
-    start_time = time.time()
     results = []
+
     # Generate text for each phrase - we can define a fixed max_length to ensure consistent outputs
     for phrase in phrases:
+        tracker = EmissionsTracker(log_level="error")
+        tracker.start()
         out = pipe(phrase, max_new_tokens=50, num_return_sequences=1)
-        # out is a list of dicts with 'generated_text'
-        results.append((phrase, out[0]["generated_text"] if out else ""))
-    runtime = time.time() - start_time
-    emissions = tracker.stop()
-
+        emissions = tracker.stop()
+        print(tracker.final_emissions_data)
+        
+        token_count = len(out[0]["generated_text"].split())
+        results.append({
+            "phrase": phrase,
+            "prediction": out[0]["generated_text"],
+            "emissions": emissions,
+            "token_count": token_count,
+            "cpu_energy": tracker.final_emissions_data.cpu_energy,
+            "gpu_energy": tracker.final_emissions_data.gpu_energy,
+            "ram_energy": tracker.final_emissions_data.ram_energy,
+            "energy_consumed": tracker.final_emissions_data.total_energy_consumed,
+            "duration": tracker.final_emissions_data.duration
+        })
+    
+    energy_per_token = sum([r["energy_consumed"] for r in results]) / sum([r["token_count"] for r in results])
+    print(f"Energy per token: {energy_per_token:.4f} kWh")
     # energy_kwh = tracker.get("energy_consumed (kWh)", None)
     # co2eq = tracker.get("emissions (kg)", None)
-    print(tracker)
+    
 
-    write_results(
-        output_file=output_file,
-        model_name=model_name,
-        strategy=strategy,
-        backend=backend,
-        runtime=runtime,
-        energy_kwh='energy_kwh',
-        co2eq='co2eq',
-        phrases=phrases,
-        predictions=results
-    )
+    # write_results(
+    #     output_file=output_file,
+    #     model_name=model_name,
+    #     strategy=strategy,
+    #     backend=backend,
+    #     runtime=runtime,
+    #     energy_kwh='energy_kwh',
+    #     co2eq='co2eq',
+    #     phrases=phrases,
+    #     predictions=results
+    # )
