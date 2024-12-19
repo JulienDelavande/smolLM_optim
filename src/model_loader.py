@@ -49,13 +49,13 @@ def load_model(model_name: str, strategy: str, backend: str):
         model = ORTModelForCausalLM.from_pretrained(model_name, export=True)
         
         if strategy == "none":
-            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
 
         if strategy == "quantization":
             qconfig = AutoQuantizationConfig.avx512_vnni(is_static=False, per_channel=True)
             quantizer = ORTQuantizer.from_pretrained(model)
             quantizer.quantize(save_dir=onnx_model_path, quantization_config=qconfig)
             model = ORTModelForCausalLM.from_pretrained(onnx_model_path)
-            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
 
         return pipe, tokenizer
