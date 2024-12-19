@@ -15,12 +15,15 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     phrases = load_dataset_samples(dataset_name, dataset_split, max_samples)
     pipe, tokenizer = load_model(model_name, strategy, backend)
     results = []
+    question = "Tell a story about Philipp?"
+    context = "My name is Philipp and I live in Nuremberg."
+    prompt = f'{context} {question}'
 
     # Generate text for each phrase - we can define a fixed max_length to ensure consistent outputs
     for phrase in phrases:
         tracker = EmissionsTracker(log_level="error")
         tracker.start()
-        out = pipe(phrase)
+        out = pipe(prompt)
         emissions = tracker.stop()
         print(tracker.final_emissions_data)
         print(f"phrase: {phrase}")
