@@ -27,9 +27,22 @@ def run_benchmark_on_dataset(model, tokenizer, samples, device="cpu"):
     times_list = []
     
     for sample in samples:
-        _, emissions, time_elapsed = measure_energy(run_benchmark, model, tokenizer, sample, device)
-        emissions_list.append(emissions)
-        times_list.append(time_elapsed)
+        if is_quantized:
+            # Préparer les données pour le modèle ONNX
+            inputs = model.tokenizer(sample, return_tensors="pt", truncation=True, max_length=512)
+            
+            # Mesurer l'énergie pour un modèle ONNX
+            def run_onnx_model(onnx_model, tokenizer, input_text, device="cpu"):
+                inputs_onnx = {k: v.numpy() for k, v in inputs.items()}
+                outputs = model.run(None, inputs_onnx)
+                return outputs
+
+            _, emissions, time_elapsed = measure_energy(run_onnx_model, model, None, sample, device)
+            
+        else:
+            _, emissions, time_elapsed = measure_energy(run_benchmark, model, tokenizer, sample, device)
+            emissions_list.append(emissions)
+            times_list.append(time_elapsed)
     
     # Moyennes et écart-types
     avg_emissions = np.mean(emissions_list)

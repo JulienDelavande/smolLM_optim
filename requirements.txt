@@ -4,6 +4,6 @@ optimum[onnxruntime,intel,neural-compressor]
 pyyaml
 numpy
 datasets
-onnxruntime
 codecarbon
 bitsandbytes
+onnxruntime-gpu

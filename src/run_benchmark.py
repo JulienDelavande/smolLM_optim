@@ -20,7 +20,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     for phrase in phrases:
         tracker = EmissionsTracker(log_level="error")
         tracker.start()
-        out = pipe(phrase, max_new_tokens=50, num_return_sequences=1)
+        out = pipe(phrase)
         emissions = tracker.stop()
         print(tracker.final_emissions_data)
         print(f"phrase: {phrase}")

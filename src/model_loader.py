@@ -44,9 +44,10 @@ def load_model(model_name: str, strategy: str, backend: str):
         onnx_model_path = f"{model_name}-onnx"
         if not os.path.exists(onnx_model_path):
             os.makedirs(onnx_model_path)
-
-        model = ORTModelForCausalLM.from_pretrained(model_name, export=True)
+            
         tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = ORTModelForCausalLM.from_pretrained(model_name, export=True)
+        
         
         if strategy == "none":
             pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, accelerator="ort")
