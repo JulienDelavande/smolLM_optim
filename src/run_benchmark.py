@@ -23,6 +23,8 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
         out = pipe(phrase, max_new_tokens=50, num_return_sequences=1)
         emissions = tracker.stop()
         print(tracker.final_emissions_data)
+        print(f"phrase: {phrase}")
+        print(f"prediction: {out[0]['generated_text']}")
         
         token_count = len(out[0]["generated_text"].split())
         results.append({

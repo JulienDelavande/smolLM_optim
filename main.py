@@ -7,7 +7,7 @@ if __name__ == "__main__":
                         help="Hugging Face model name or path.")
     parser.add_argument("--strategy", type=str, choices=["none", "quantization", "pruning"], 
                         default="none", help="Optimization strategy.")
-    parser.add_argument("--backend", type=str, choices=["onnx_cpu", "onnx_gpu", "hf_cpu", "hf_gpu"], 
+    parser.add_argument("--backend", type=str, choices=["base_cpu", "base_gpu", "onnx_cpu", "onnx_gpu"], 
                         default="onnx_cpu", help="Backend and hardware.")
     parser.add_argument("--dataset_name", type=str, default="wikitext", help="Name of the Hugging Face dataset.")
     parser.add_argument("--dataset_config", type=str, default="wikitext-2-raw-v1", 

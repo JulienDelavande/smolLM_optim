@@ -10,12 +10,35 @@ import os
 def load_model(model_name: str, strategy: str, backend: str):
     """
     Load and return a pipeline for text-generation according to strategy and backend.
-    backend: "onnx_cpu", "onnx_gpu", "hf_cpu", "hf_gpu"
+    backend: "onnx_cpu", "onnx_gpu", "base_cpu", "base_gpu"
     strategy: "none", "quantization", "pruning"
     """
     device = "cpu"
     if backend.endswith("gpu"):
         device = "cuda" if torch.cuda.is_available() else "cpu"
+        
+    if backend.startswith("base"):
+        # HF backend
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        
+        if strategy == 'none':
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
+            
+        if strategy == "quantization8bit":
+            quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+            model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config)
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+            
+        if strategy == "quantization16bit":
+            quantization_config = BitsAndBytesConfig(load_in_16bit=True)
+            model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config)
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+            
+            
+
+        # Pruning would be done here if integrated. 
+        # Example: use `optimum` pruning utilities before final loading.
     
     if backend.startswith("onnx"):
         # ONNX backend
@@ -41,24 +64,7 @@ def load_model(model_name: str, strategy: str, backend: str):
         pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
         return pipe
 
-    else:
-        # HF backend
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForCausalLM.from_pretrained(model_name)
-        
-        if strategy == 'baseline':
-            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer).to(device)
-            
 
-        if strategy == "quantization":
-            # PyTorch dynamic quantization
-            quantization_config = BitsAndBytesConfig(load_in_8bit=True)
-            model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config)
-            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
-            
-
-        # Pruning would be done here if integrated. 
-        # Example: use `optimum` pruning utilities before final loading.
 
         
         return pipe
