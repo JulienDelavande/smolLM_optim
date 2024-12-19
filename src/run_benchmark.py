@@ -42,7 +42,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     total_tokens = sum([r["token_count"] for r in results])
     total_energy = sum([r["energy_consumed"] for r in results])
     energy_per_token = total_energy / total_tokens
-    print(f"Energy per token: {energy_per_token/1000} Wh")
+    print(f"Energy per token: {energy_per_token*1000} Wh")
     # energy_kwh = tracker.get("energy_consumed (kWh)", None)
     # co2eq = tracker.get("emissions (kg)", None)
     
