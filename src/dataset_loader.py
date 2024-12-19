@@ -7,7 +7,7 @@ def load_dataset_samples(dataset_name: str, dataset_config: str, dataset_split: 
     """
     Load a dataset from Hugging Face Datasets and return max_samples texts.
     """
-    ds = load_dataset(dataset_name, dataset_config, split=dataset_split)
+    ds = load_dataset(dataset_name, split=dataset_split)
     # Assume ds is a text dataset with a 'text' field. Adjust if needed.
-    samples = ds[:max_samples]["text"]
+    samples = ds[:max_samples]["question"]
     return [s for s in samples if s.strip()]

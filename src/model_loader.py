@@ -49,8 +49,11 @@ def load_model(model_name: str, strategy: str, backend: str):
             os.makedirs(onnx_model_path)
 
         # Load ORT model
-        model = ORTModelForCausalLM.from_pretrained("HuggingFaceTB/SmolLM-135M",from_transformers=True)
+        model = ORTModelForCausalLM.from_pretrained(model_name, from_transformers=True)
         tokenizer = AutoTokenizer.from_pretrained(model_name)
+        
+        if strategy == "none":
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
 
         if strategy == "quantization":
             quantizer = ORTQuantizer.from_pretrained(model)
@@ -59,11 +62,12 @@ def load_model(model_name: str, strategy: str, backend: str):
                 save_dir=onnx_model_path,
                 quantization_config=dqconfig,
             )
+            pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
 
         # Pruning note: pruning for ONNX should be done before export, so this is a placeholder.
         # If pruning is desired, it should be integrated before exporting.
 
-        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, device=0 if device=="cuda" else -1)
+
         return pipe
 
 
