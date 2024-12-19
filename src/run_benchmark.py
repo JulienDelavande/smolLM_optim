@@ -21,7 +21,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
 
     # Generate text for each phrase - we can define a fixed max_length to ensure consistent outputs
     for phrase in phrases:
-        tracker = EmissionsTracker(log_level="error")
+        tracker = EmissionsTracker()
         tracker.start()
         out = pipe(prompt)
         emissions = tracker.stop()
