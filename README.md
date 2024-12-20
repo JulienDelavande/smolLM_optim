@@ -30,10 +30,12 @@ This project evaluates the energy consumption and performance of the [SmolLM-135
 ## Usage
 To reproduce the benchmarks, use the following script:
 ```bash
-python benchmark.py --model_name HuggingFaceTB/SmolLM-135M \
+python main.py --model_name HuggingFaceTB/SmolLM-135M \
     --strategy quantization8bit --backend base_gpu \
     --dataset_name squad --dataset_split test --samples 50
 ```
+backend available options: `base_gpu`, `base_cpu`, `onnx_cpu`
+strategy available options: `none`, `quantization8bit`, `quantization16bit`, `quantization` (dynamic 16 bit)
 
 ## Recommendations
 - Use static 8-bit quantization for GPU deployments to minimize energy consumption.
