@@ -15,8 +15,7 @@ def load_model(model_name: str, strategy: str, backend: str):
     device = "cpu"
     if backend.endswith("gpu"):
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        from optimum.onnxruntime import ORTModelForCausalLM, ORTQuantizer
-        from optimum.onnxruntime.configuration import AutoQuantizationConfig
+        
         
     # Base Backend
     if backend.startswith("base"):
@@ -40,6 +39,8 @@ def load_model(model_name: str, strategy: str, backend: str):
 
     # ONNX Backend
     if backend.startswith("onnx"):
+        from optimum.onnxruntime import ORTModelForCausalLM, ORTQuantizer
+        from optimum.onnxruntime.configuration import AutoQuantizationConfig
         
         onnx_model_path = f"{model_name}-onnx"
         if not os.path.exists(onnx_model_path):
