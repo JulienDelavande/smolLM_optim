@@ -22,5 +22,5 @@ if __name__ == "__main__":
         backend=args.backend,
         dataset_name=args.dataset_name,
         dataset_split=args.dataset_split,
-        max_samples=args.samples,
+        samples=args.samples,
     )
