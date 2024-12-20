@@ -1,9 +1,11 @@
-transformers
+transformers==4.45.2
 torch
-optimum[onnxruntime,intel,neural-compressor]
+optimum[onnxruntime,intel,neural-compressor]==1.23.3
+optimum-intel==1.21.0
+onnxruntime==1.20.1
 pyyaml
 numpy
-datasets
-codecarbon
-bitsandbytes
-onnxruntime-gpu
+datasets==3.2.0
+codecarbon==2.8.2
+bitsandbytes==0.45.0
+onnxruntime-gpu==1.20.1
