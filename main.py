@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_name", type=str, default="squad", help="Name of the Hugging Face dataset.")
     parser.add_argument("--dataset_split", type=str, default="test", 
                         help="Split of the dataset to load.")
-    parser.add_argument("--max_samples", type=int, default=10, 
+    parser.add_argument("--samples", type=int, default=10, 
                         help="Number of samples to test from the dataset.")
     args = parser.parse_args()
 
@@ -22,5 +22,5 @@ if __name__ == "__main__":
         backend=args.backend,
         dataset_name=args.dataset_name,
         dataset_split=args.dataset_split,
-        max_samples=args.max_samples,
+        max_samples=args.samples,
     )

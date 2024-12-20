@@ -3,11 +3,11 @@ from .dataset_loader import load_dataset_samples
 from .model_loader import load_model
 
 def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: str, 
-                 dataset_split: str, max_samples: int):
+                 dataset_split: str, samples: int):
     """
     Run the benchmark for a text generation model with given strategy and backend.
     """
-    phrases = load_dataset_samples(dataset_name, dataset_split, max_samples)
+    phrases = load_dataset_samples(dataset_name, dataset_split, samples)
     pipe, tokenizer = load_model(model_name, strategy, backend)
     results = []
 
@@ -23,7 +23,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     for phrase in phrases:
         tracker = EmissionsTracker()
         tracker.start()
-        out = pipe(phrase)
+        out = pipe(phrase, max_new_tokens=50)
         emissions = tracker.stop()
 
         generated_text = out[0]["generated_text"][len(phrase):]
