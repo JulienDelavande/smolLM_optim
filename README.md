@@ -1,7 +1,7 @@
 # Benchmarking SmolLM-135M: Energy Optimization and Performance Analysis
 
 ## Overview
-This project evaluates the energy consumption and performance of the SmolLM-135M language model using various hardware configurations, backends, and optimization strategies. The study is conducted on the SQuAD dataset (test split, 10 samples) and focuses on understanding the trade-offs between energy efficiency and model performance.
+This project evaluates the energy consumption and performance of the [SmolLM-135M language model](https://huggingface.co/HuggingFaceTB/SmolLM-135M) using various hardware configurations, backends, and optimization strategies. The study is conducted on the [SQuAD dataset](https://huggingface.co/datasets/rajpurkar/squad) (test split, 10 samples) and focuses on understanding the trade-offs between energy efficiency and model performance.
 
 ## Features
 - **Hardware**: Benchmarked on CPU (Intel Xeon) and GPU (NVIDIA T4).
@@ -48,6 +48,7 @@ Further research with other optimisation startégies such as pruning and diverse
 
 ## References
 - [SmolLM](https://huggingface.co/HuggingFaceTB/SmolLM-135M)
+- [SQuAD Dataset](https://huggingface.co/datasets/rajpurkar/squad)
 - [Hugging Face Transformers](https://huggingface.co)
 - [ONNX Runtime](https://onnxruntime.ai)
 - [CodeCarbon](https://github.com/mlco2/codecarbon)

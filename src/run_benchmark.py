@@ -17,6 +17,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     total_cpu_energy = 0
     total_gpu_energy = 0
     total_ram_energy = 0
+    total_co2_emissions = 0
 
     print("Starting benchmark...")
 
