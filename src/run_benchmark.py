@@ -37,6 +37,7 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
         total_cpu_energy += energy_data.cpu_energy
         total_gpu_energy += energy_data.gpu_energy
         total_ram_energy += energy_data.ram_energy
+        total_co2_emissions += emissions
 
         results.append({
             "phrase": phrase,
@@ -56,7 +57,8 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     cpu_energy_per_token = total_cpu_energy / total_tokens if total_tokens > 0 else 0
     gpu_energy_per_token = total_gpu_energy / total_tokens if total_tokens > 0 else 0
     ram_energy_per_token = total_ram_energy / total_tokens if total_tokens > 0 else 0
-
+    co2_emissions_per_token = total_co2_emissions / total_tokens if total_tokens > 0 else 0
+    
     # Print summary
     print("\nBenchmark Results Summary")
     print("========================")
@@ -67,13 +69,10 @@ def run_benchmark(model_name: str, strategy: str, backend: str, dataset_name: st
     print(f"Samples processed: {len(phrases)}")
     print(f"Total tokens generated: {total_tokens}")
     print(f"Total energy consumed: {total_energy:.6f} kWh")
-    print(f"Total duration: {total_duration:.2f} seconds")
-    print(f"Energy per token: {energy_per_token*1000:.2f} Wh/token")
+    print(f"Total duration: {total_duration} seconds")
+    print(f"Energy per token: {energy_per_token*1000} Wh/token")
     print(f"Duration per token: {duration_per_token:.4f} seconds/token")
-    print(f"CPU energy per token: {cpu_energy_per_token*1000:.2f} Wh/token")
-    print(f"GPU energy per token: {gpu_energy_per_token*1000:.2f} Wh/token")
-    print(f"RAM energy per token: {ram_energy_per_token*1000:.2f} Wh/token")
-
-    # Equivalent CO2 emissions (CodeCarbon provides CO2 in kg)
-    co2_emissions = sum(r["emissions"] for r in results)
-    print(f"Equivalent CO2 emissions: {co2_emissions:.6f} kg")
+    print(f"CPU energy per token: {cpu_energy_per_token*1000} Wh/token")
+    print(f"GPU energy per token: {gpu_energy_per_token*1000} Wh/token")
+    print(f"RAM energy per token: {ram_energy_per_token*1000} Wh/token")
+    print(f"Equivalent CO2 emissions per token: {co2_emissions_per_token} kg eqCO2/token")
