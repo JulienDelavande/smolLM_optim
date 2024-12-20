@@ -3,7 +3,6 @@ Load and prepare models with specified optimization strategy and backend for tex
 """
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, BitsAndBytesConfig
-from optimum.onnxruntime import ORTModelForCausalLM, AutoQuantizationConfig, ORTQuantizer
 
 import os
 
@@ -11,7 +10,7 @@ def load_model(model_name: str, strategy: str, backend: str):
     """
     Load and return a pipeline for text-generation according to strategy and backend.
     backend: "onnx_cpu", "onnx_gpu", "base_cpu", "base_gpu"
-    strategy: "none", "quantization", "pruning"
+    strategy: "none", "quantization", "quantization8bit", "quantization16bit"
     """
     device = "cpu"
     if backend.endswith("gpu"):
